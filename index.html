@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Telegra</title>
     <style>
         * {
@@ -36,6 +36,11 @@
             --rare: #4a90e2;
             --epic: #9b59b6;
             --legendary: #f1c40f;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
         }
 
         body {
@@ -170,6 +175,7 @@
             height: 100vh;
             display: none;
             background: var(--bg-color);
+            overflow: hidden;
         }
 
         .main-screen.active {
@@ -184,6 +190,7 @@
             display: flex;
             flex-direction: column;
             height: 100%;
+            overflow: hidden;
         }
 
         .chats-header {
@@ -194,6 +201,7 @@
             justify-content: space-between;
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .chats-header-left {
@@ -237,6 +245,7 @@
             border-bottom: 1px solid var(--border-color);
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .profile-bar:hover {
@@ -327,6 +336,7 @@
             justify-content: center;
             border-radius: 50%;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .profile-settings:hover {
@@ -341,6 +351,7 @@
             border-bottom: 1px solid var(--border-color);
             position: relative;
             z-index: 100;
+            flex-shrink: 0;
         }
 
         .search-container {
@@ -375,6 +386,7 @@
         .chats-list-container {
             flex: 1;
             overflow-y: auto;
+            min-height: 0;
         }
 
         .chats-list {
@@ -397,6 +409,7 @@
         .chat-item-avatar {
             position: relative;
             margin-right: 12px;
+            flex-shrink: 0;
         }
 
         .avatar-img {
@@ -455,6 +468,7 @@
             font-size: 12px;
             color: var(--text-secondary);
             margin-left: 8px;
+            flex-shrink: 0;
         }
 
         .chat-item-last-message {
@@ -474,6 +488,7 @@
             font-weight: 500;
             min-width: 20px;
             text-align: center;
+            flex-shrink: 0;
         }
 
         /* ========== ОСНОВНАЯ ОБЛАСТЬ ЧАТА ========== */
@@ -483,7 +498,7 @@
             flex-direction: column;
             background: var(--bg-color);
             height: 100%;
-            position: relative;
+            overflow: hidden;
         }
 
         .chat-area.active {
@@ -499,6 +514,7 @@
             align-items: center;
             padding: 0 16px;
             gap: 12px;
+            flex-shrink: 0;
         }
 
         .back-btn {
@@ -516,6 +532,7 @@
             border-radius: 50%;
             transition: background 0.2s;
             display: none;
+            flex-shrink: 0;
         }
 
         .back-btn:hover {
@@ -531,6 +548,7 @@
             padding: 4px 8px;
             border-radius: 8px;
             transition: background 0.2s;
+            min-width: 0;
         }
 
         .chat-header-info:hover {
@@ -547,11 +565,13 @@
             justify-content: center;
             font-size: 20px;
             color: white;
+            flex-shrink: 0;
         }
 
         .chat-title-container {
             display: flex;
             flex-direction: column;
+            min-width: 0;
         }
 
         .chat-title {
@@ -560,16 +580,23 @@
             display: flex;
             align-items: center;
             gap: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .chat-subtitle {
             font-size: 12px;
             color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .chat-header-actions {
             display: flex;
             gap: 8px;
+            flex-shrink: 0;
         }
 
         .chat-action-btn {
@@ -600,6 +627,7 @@
             background: var(--bg-color);
             display: flex;
             flex-direction: column;
+            min-height: 0;
         }
 
         .message {
@@ -648,31 +676,34 @@
             color: var(--accent-color);
         }
 
-        /* Поле ввода */
+        /* ========== ПОЛЕ ВВОДА - ИСПРАВЛЕННАЯ ВЕРСИЯ ========== */
         .message-input-area {
-            height: 70px;
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
+            padding: 8px 12px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .message-input-container {
             display: flex;
             align-items: center;
-            padding: 0 16px;
-            gap: 12px;
-            position: relative;
-            z-index: 5;
+            gap: 8px;
+            width: 100%;
         }
 
         .attach-btn, .send-btn {
+            width: 44px;
+            height: 44px;
             background: transparent;
             border: none;
             color: var(--text-primary);
             font-size: 24px;
             cursor: pointer;
-            padding: 8px;
-            width: 44px;
-            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-shrink: 0;
             border-radius: 50%;
             transition: background 0.2s;
         }
@@ -683,15 +714,14 @@
 
         .input-wrapper {
             flex: 1;
-            display: flex;
-            align-items: center;
             background: var(--bg-tertiary);
             border-radius: 24px;
             padding: 0 16px;
+            min-width: 0;
         }
 
         .input-wrapper input {
-            flex: 1;
+            width: 100%;
             background: transparent;
             border: none;
             padding: 12px 0;
@@ -718,6 +748,8 @@
             z-index: 1000;
             overflow-y: auto;
             animation: slideIn 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .profile-screen.hidden {
@@ -735,6 +767,7 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            flex-shrink: 0;
         }
 
         .profile-header h3 {
@@ -757,6 +790,7 @@
             justify-content: center;
             border-radius: 50%;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .edit-btn:hover {
@@ -765,6 +799,8 @@
 
         .profile-content {
             padding: 24px;
+            overflow-y: auto;
+            flex: 1;
         }
 
         .profile-avatar-large {
@@ -854,6 +890,7 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            flex-shrink: 0;
         }
 
         .premium-feature-info {
@@ -1069,6 +1106,8 @@
             z-index: 1000;
             overflow-y: auto;
             animation: slideIn 0.3s ease;
+            display: flex;
+            flex-direction: column;
         }
 
         .chat-info-screen.hidden {
@@ -1086,6 +1125,7 @@
             position: sticky;
             top: 0;
             z-index: 10;
+            flex-shrink: 0;
         }
 
         .info-header h3 {
@@ -1096,6 +1136,8 @@
 
         .info-content {
             padding: 24px;
+            overflow-y: auto;
+            flex: 1;
         }
 
         .info-section {
@@ -1166,6 +1208,7 @@
             align-items: center;
             justify-content: center;
             font-size: 18px;
+            flex-shrink: 0;
         }
 
         .info-participant-info {
@@ -1241,6 +1284,7 @@
             justify-content: center;
             margin-right: 12px;
             font-size: 20px;
+            flex-shrink: 0;
         }
 
         .search-result-info {
@@ -1274,6 +1318,7 @@
             font-size: 12px;
             cursor: pointer;
             transition: background 0.2s;
+            flex-shrink: 0;
         }
 
         .search-result-action:hover {
@@ -1523,13 +1568,14 @@
             background: var(--accent-hover);
         }
 
-        /* Медиа-запросы для мобильных */
+        /* ========== МОБИЛЬНАЯ ВЕРСИЯ ========== */
         @media (max-width: 768px) {
             .chats-sidebar {
                 width: 100%;
                 position: absolute;
                 z-index: 10;
                 display: none;
+                height: 100%;
             }
 
             .chats-sidebar.active {
@@ -1538,10 +1584,95 @@
 
             .chat-area {
                 width: 100%;
+                display: none;
+                height: 100vh;
+                overflow: hidden;
+                flex-direction: column;
+            }
+
+            .chat-area.active {
+                display: flex;
             }
 
             .back-btn {
-                display: block;
+                display: block !important;
+            }
+
+            .message-input-area {
+                padding: 6px 10px;
+            }
+
+            .attach-btn, .send-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 22px;
+            }
+
+            .input-wrapper {
+                padding: 0 12px;
+            }
+
+            .input-wrapper input {
+                font-size: 14px;
+                padding: 10px 0;
+            }
+
+            .chat-item-avatar .avatar-img {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+
+            .chat-item {
+                padding: 10px 12px;
+            }
+
+            .chats-header {
+                padding: 0 12px;
+            }
+
+            .profile-bar {
+                padding: 10px 12px;
+            }
+        }
+
+        /* Очень маленькие экраны */
+        @media (max-width: 480px) {
+            .message-input-area {
+                padding: 4px 8px;
+            }
+
+            .attach-btn, .send-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 20px;
+            }
+
+            .input-wrapper {
+                padding: 0 10px;
+            }
+
+            .input-wrapper input {
+                font-size: 13px;
+                padding: 8px 0;
+            }
+
+            .chat-item-avatar .avatar-img {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+
+            .chat-item-name {
+                font-size: 14px;
+            }
+
+            .chat-item-last-message {
+                font-size: 12px;
+            }
+
+            .chat-item-time {
+                font-size: 10px;
             }
         }
     </style>
@@ -1673,13 +1804,15 @@
                 <!-- Сообщения -->
                 <div class="messages-container" id="messages-container"></div>
 
-                <!-- Поле ввода -->
+                <!-- ПОЛЕ ВВОДА - ИСПРАВЛЕННАЯ ВЕРСИЯ -->
                 <div class="message-input-area" id="message-input-area" style="display: none;">
-                    <button class="attach-btn" id="attach-btn">📎</button>
-                    <div class="input-wrapper">
-                        <input type="text" id="message-input" placeholder="Сообщение" autocomplete="off">
+                    <div class="message-input-container">
+                        <button class="attach-btn" id="attach-btn">📎</button>
+                        <div class="input-wrapper">
+                            <input type="text" id="message-input" placeholder="Сообщение" autocomplete="off">
+                        </div>
+                        <button class="send-btn" id="send-btn">📤</button>
                     </div>
-                    <button class="send-btn" id="send-btn">📤</button>
                 </div>
             </div>
 
@@ -1764,7 +1897,6 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <script>
-        // Ждем загрузку страницы
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 Telegra запускается...');
 
@@ -1792,21 +1924,18 @@
             let currentChatType = null;
             let allUsers = {};
             let allChats = {};
-            let allBots = {}; // Здесь будут все боты из любой структуры
+            let allBots = {};
             let userGifts = {};
             let pinnedGifts = [];
             let messagesListener = null;
             
-            // Информация о премиум статусе
             let isPremium = false;
             let premiumUntil = null;
             
-            // Настройки конфиденциальности
             let privacySettings = {
-                whoCanWrite: 'all' // 'all' или 'none'
+                whoCanWrite: 'all'
             };
 
-            // Каталог подарков
             const giftsCatalog = [
                 { id: 'gift1', name: '🎂 Торт', price: 50, emoji: '🎂', rarity: 'common', canUpgrade: true, upgradeTo: 'gift7', upgradePrice: 100 },
                 { id: 'gift2', name: '💐 Цветы', price: 30, emoji: '💐', rarity: 'common', canUpgrade: true, upgradeTo: 'gift8', upgradePrice: 80 },
@@ -1821,7 +1950,6 @@
                 { id: 'gift11', name: '👑✨ Улучшенная корона', price: 800, emoji: '👑✨', rarity: 'mythical', upgraded: true }
             ];
 
-            // Цены на звезды (как в Telegram)
             const starPrices = [
                 { amount: 50, price: 0.99, emoji: '⭐' },
                 { amount: 100, price: 1.99, emoji: '⭐' },
@@ -1831,62 +1959,50 @@
                 { amount: 2500, price: 49.99, emoji: '⭐' }
             ];
 
-            // ========== DOM ЭЛЕМЕНТЫ ==========
             const elements = {
                 authScreen: document.getElementById('auth-screen'),
                 mainScreen: document.getElementById('main-screen'),
-                
                 loginForm: document.getElementById('login-form'),
                 registerForm: document.getElementById('register-form'),
                 showRegister: document.getElementById('show-register'),
                 showLogin: document.getElementById('show-login'),
-                
                 loginUsername: document.getElementById('login-username'),
                 loginPassword: document.getElementById('login-password'),
                 loginBtn: document.getElementById('login-btn'),
                 loginMessage: document.getElementById('login-message'),
-                
                 registerUsername: document.getElementById('register-username'),
                 registerSearchname: document.getElementById('register-searchname'),
                 registerEmail: document.getElementById('register-email'),
                 registerPassword: document.getElementById('register-password'),
                 registerBtn: document.getElementById('register-btn'),
                 registerMessage: document.getElementById('register-message'),
-                
                 chatsSidebar: document.getElementById('chats-sidebar'),
                 chatArea: document.getElementById('chat-area'),
                 profileScreen: document.getElementById('profile-screen'),
                 chatInfoScreen: document.getElementById('chat-info-screen'),
-                
                 backToChats: document.getElementById('back-to-chats'),
                 backFromProfile: document.getElementById('back-from-profile'),
                 backFromInfo: document.getElementById('back-from-info'),
-                
                 userInfo: document.getElementById('user-info'),
                 userAvatar: document.getElementById('user-avatar'),
                 currentUsername: document.getElementById('current-username'),
                 userStars: document.getElementById('user-stars'),
-                
                 searchBtn: document.getElementById('search-btn'),
                 menuBtn: document.getElementById('menu-btn'),
                 searchPanel: document.getElementById('search-panel'),
                 searchInput: document.getElementById('search-input'),
                 searchResults: document.getElementById('search-results'),
-                
                 logoutBtn: document.getElementById('logout-btn'),
                 chatInfoBtn: document.getElementById('chat-info-btn'),
-                
                 chatsList: document.getElementById('chats-list'),
                 messagesContainer: document.getElementById('messages-container'),
                 messageInput: document.getElementById('message-input'),
                 sendBtn: document.getElementById('send-btn'),
                 attachBtn: document.getElementById('attach-btn'),
-                
                 chatTitle: document.getElementById('chat-title'),
                 chatSubtitle: document.getElementById('chat-subtitle'),
                 chatAvatar: document.getElementById('chat-avatar'),
                 messageInputArea: document.getElementById('message-input-area'),
-                
                 profileAvatar: document.getElementById('profile-avatar'),
                 profileName: document.getElementById('profile-name'),
                 profileStars: document.getElementById('profile-stars'),
@@ -1895,16 +2011,12 @@
                 giftsCollection: document.getElementById('gifts-collection'),
                 editProfileBtn: document.getElementById('edit-profile-btn'),
                 sendMessageToProfile: document.getElementById('send-message-to-profile'),
-                
                 chatInfoContent: document.getElementById('chat-info-content'),
-                
                 notificationContainer: document.getElementById('notification-container'),
                 modalOverlay: document.getElementById('modal-overlay'),
                 modalContent: document.getElementById('modal-content')
             };
 
-            // ========== УВЕДОМЛЕНИЯ ==========
-            
             function showNotification(message, type = 'info', duration = 3000) {
                 const notification = document.createElement('div');
                 notification.className = `notification ${type}`;
@@ -1915,11 +2027,7 @@
                 if (type === 'gift') icon = '🎁';
                 if (type === 'premium') icon = '⭐';
                 
-                notification.innerHTML = `
-                    <span class="notification-icon">${icon}</span>
-                    <span class="notification-message">${message}</span>
-                `;
-                
+                notification.innerHTML = `<span class="notification-icon">${icon}</span><span class="notification-message">${message}</span>`;
                 elements.notificationContainer.appendChild(notification);
                 
                 setTimeout(() => notification.classList.add('show'), 10);
@@ -1945,9 +2053,7 @@
                         <button class="modal-close" id="modal-close">✕</button>
                     </div>
                     <div class="modal-body">
-                        ${showInput ? 
-                            `<input type="text" id="modal-input" class="modal-input" placeholder="${inputPlaceholder}">` : 
-                            `<div class="modal-text">${content}</div>`}
+                        ${showInput ? `<input type="text" id="modal-input" class="modal-input" placeholder="${inputPlaceholder}">` : `<div class="modal-text">${content}</div>`}
                     </div>
                     <div class="modal-footer">
                         <button class="modal-btn cancel" id="modal-cancel">${cancelText}</button>
@@ -1978,43 +2084,27 @@
                 if (!timestamp) return '';
                 const date = new Date(timestamp);
                 const now = new Date();
-                
                 if (date.toDateString() === now.toDateString()) {
                     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
                 }
                 return date.toLocaleDateString([], { day: '2-digit', month: '2-digit' });
             }
 
-            // ========== ЗАГРУЗКА БОТОВ ИЗ ЛЮБОЙ СТРУКТУРЫ ==========
-            
             function loadAllBots() {
                 const botsRef = database.ref('bots');
-                
                 botsRef.once('value', (snapshot) => {
                     const botsData = snapshot.val() || {};
                     allBots = {};
                     
-                    // Рекурсивная функция для поиска ботов в любой структуре
                     function extractBots(obj, path = '') {
                         if (!obj || typeof obj !== 'object') return;
-                        
                         Object.entries(obj).forEach(([key, value]) => {
                             const currentPath = path ? `${path}/${key}` : key;
-                            
-                            // Проверяем, является ли текущий объект ботом (есть поля username, name, avatar)
                             if (value && typeof value === 'object') {
                                 if (value.username && (value.name || value.username)) {
-                                    // Это бот!
                                     const botId = currentPath.replace(/\//g, '_');
-                                    allBots[botId] = {
-                                        id: botId,
-                                        originalPath: currentPath,
-                                        originalKey: key,
-                                        ...value
-                                    };
+                                    allBots[botId] = { id: botId, originalPath: currentPath, originalKey: key, ...value };
                                 }
-                                
-                                // Рекурсивно ищем дальше
                                 extractBots(value, currentPath);
                             }
                         });
@@ -2025,8 +2115,6 @@
                 });
             }
 
-            // ========== АВТОРИЗАЦИЯ ==========
-            
             elements.showRegister.addEventListener('click', (e) => {
                 e.preventDefault();
                 elements.loginForm.style.display = 'none';
@@ -2070,26 +2158,21 @@
                         currentUser = foundUser;
                         currentUserId = foundUserId;
                         
-                        // Загружаем премиум статус
                         if (foundUser.premium) {
                             isPremium = true;
                             premiumUntil = foundUser.premiumUntil;
                         }
                         
-                        // Загружаем настройки конфиденциальности
                         if (foundUser.privacy) {
                             privacySettings = foundUser.privacy;
                         }
                         
-                        database.ref('users/' + foundUserId).update({
-                            online: true,
-                            lastSeen: Date.now()
-                        });
+                        database.ref('users/' + foundUserId).update({ online: true, lastSeen: Date.now() });
                         
                         elements.authScreen.style.display = 'none';
                         elements.mainScreen.classList.add('active');
                         
-                        loadAllBots(); // Загружаем ботов
+                        loadAllBots();
                         updateUserInfo();
                         loadAllUsers();
                         loadUserChats();
@@ -2157,42 +2240,36 @@
                         online: true,
                         gifts: {},
                         pinnedGifts: [],
-                        privacy: {
-                            whoCanWrite: 'all'
-                        }
+                        privacy: { whoCanWrite: 'all' }
                     };
 
-                    newUserRef.set(userData)
-                        .then(() => {
-                            currentUser = userData;
-                            currentUserId = userId;
-                            
-                            elements.authScreen.style.display = 'none';
-                            elements.mainScreen.classList.add('active');
-                            
-                            loadAllBots(); // Загружаем ботов
-                            updateUserInfo();
-                            loadAllUsers();
-                            loadUserChats();
-                            
-                            showMessage(elements.registerMessage, 'Регистрация успешна!', false);
-                            showNotification('Регистрация успешна!', 'success');
-                            
-                            elements.registerUsername.value = '';
-                            elements.registerSearchname.value = '';
-                            elements.registerEmail.value = '';
-                            elements.registerPassword.value = '';
-                        })
-                        .catch((error) => {
-                            console.error('Ошибка:', error);
-                            showMessage(elements.registerMessage, 'Ошибка при регистрации');
-                            showNotification('Ошибка при регистрации', 'error');
-                        });
+                    newUserRef.set(userData).then(() => {
+                        currentUser = userData;
+                        currentUserId = userId;
+                        
+                        elements.authScreen.style.display = 'none';
+                        elements.mainScreen.classList.add('active');
+                        
+                        loadAllBots();
+                        updateUserInfo();
+                        loadAllUsers();
+                        loadUserChats();
+                        
+                        showMessage(elements.registerMessage, 'Регистрация успешна!', false);
+                        showNotification('Регистрация успешна!', 'success');
+                        
+                        elements.registerUsername.value = '';
+                        elements.registerSearchname.value = '';
+                        elements.registerEmail.value = '';
+                        elements.registerPassword.value = '';
+                    }).catch((error) => {
+                        console.error('Ошибка:', error);
+                        showMessage(elements.registerMessage, 'Ошибка при регистрации');
+                        showNotification('Ошибка при регистрации', 'error');
+                    });
                 });
             });
 
-            // ========== НАСТРОЙКИ КОНФИДЕНЦИАЛЬНОСТИ ==========
-            
             window.showPrivacySettings = function() {
                 showModal({
                     title: 'Конфиденциальность',
@@ -2224,22 +2301,13 @@
                 showNotification('Настройки сохранены', 'success');
             };
 
-            // ========== ПРЕМИУМ ФУНКЦИИ ==========
-            
             window.buyPremium = function(type) {
                 let price = 0;
                 let duration = '';
                 
-                if (type === 'month') {
-                    price = 50;
-                    duration = 'месяц';
-                } else if (type === 'year') {
-                    price = 500;
-                    duration = 'год';
-                } else if (type === 'forever') {
-                    price = 1000;
-                    duration = 'навсегда';
-                }
+                if (type === 'month') { price = 50; duration = 'месяц'; }
+                else if (type === 'year') { price = 500; duration = 'год'; }
+                else if (type === 'forever') { price = 1000; duration = 'навсегда'; }
                 
                 if (currentUser.stars < price) {
                     showNotification(`Недостаточно звёзд! Нужно ${price} ⭐`, 'error');
@@ -2254,13 +2322,9 @@
                         currentUser.stars -= price;
                         
                         let premiumUntil = null;
-                        if (type === 'month') {
-                            premiumUntil = Date.now() + 30 * 24 * 60 * 60 * 1000;
-                        } else if (type === 'year') {
-                            premiumUntil = Date.now() + 365 * 24 * 60 * 60 * 1000;
-                        } else if (type === 'forever') {
-                            premiumUntil = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000; // 100 лет
-                        }
+                        if (type === 'month') premiumUntil = Date.now() + 30 * 24 * 60 * 60 * 1000;
+                        else if (type === 'year') premiumUntil = Date.now() + 365 * 24 * 60 * 60 * 1000;
+                        else if (type === 'forever') premiumUntil = Date.now() + 100 * 365 * 24 * 60 * 60 * 1000;
                         
                         database.ref('users/' + currentUserId).update({
                             stars: currentUser.stars,
@@ -2279,8 +2343,6 @@
                 });
             };
 
-            // ========== ЗАГРУЗКА ДАННЫХ ==========
-            
             function loadAllUsers() {
                 database.ref('users').on('value', (snapshot) => {
                     allUsers = snapshot.val() || {};
@@ -2290,18 +2352,14 @@
 
             function loadUserChats() {
                 if (!currentUserId) return;
-                
                 database.ref('chats').on('value', (snapshot) => {
                     const allChatsData = snapshot.val() || {};
                     allChats = {};
-                    
-                    // Добавляем чаты из Firebase
                     Object.entries(allChatsData).forEach(([chatId, chatData]) => {
                         if (chatData.participants && chatData.participants[currentUserId]) {
                             allChats[chatId] = chatData;
                         }
                     });
-                    
                     renderChatsList();
                 });
             }
@@ -2310,25 +2368,20 @@
                 if (!currentUser) return;
                 
                 elements.userAvatar.style.backgroundImage = `url('${currentUser.avatar}')`;
-                
                 let usernameHtml = '@' + currentUser.username;
                 if (currentUser.grant) usernameHtml += ' <span class="verified-badge"></span>';
                 if (isPremium) usernameHtml += ' <span class="premium-badge"></span>';
                 elements.currentUsername.innerHTML = usernameHtml;
-                
                 elements.userStars.textContent = '⭐ ' + currentUser.stars;
                 
                 elements.profileAvatar.style.backgroundImage = `url('${currentUser.avatar}')`;
-                
                 let profileNameHtml = '@' + currentUser.username;
                 if (currentUser.grant) profileNameHtml += ' <span class="verified-badge"></span>';
                 if (isPremium) profileNameHtml += ' <span class="premium-badge"></span>';
                 elements.profileName.innerHTML = profileNameHtml;
-                
                 elements.profileStars.textContent = '⭐ ' + currentUser.stars;
                 elements.profileBio.textContent = currentUser.bio || '...';
                 
-                // Загружаем подарки
                 database.ref('users/' + currentUserId + '/gifts').on('value', (snap) => {
                     userGifts = snap.val() || {};
                 });
@@ -2341,10 +2394,7 @@
 
             function renderChatsList() {
                 elements.chatsList.innerHTML = '';
-                
-                const sortedChats = Object.values(allChats).sort((a, b) => {
-                    return (b.lastMessageTime || 0) - (a.lastMessageTime || 0);
-                });
+                const sortedChats = Object.values(allChats).sort((a, b) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
                 
                 if (sortedChats.length === 0) {
                     elements.chatsList.innerHTML = '<div class="empty-state">Нет чатов</div>';
@@ -2402,37 +2452,25 @@
                     </div>
                 `;
                 
-                div.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Клик по чату:', chat);
-                    openChat(chat);
-                });
-                
+                div.addEventListener('click', () => openChat(chat));
                 return div;
             }
 
             function getOrCreatePrivateChat(otherUserId) {
                 if (!currentUserId) return null;
                 
-                // Проверяем настройки конфиденциальности
                 const otherUser = allUsers[otherUserId];
                 if (otherUser && otherUser.privacy && otherUser.privacy.whoCanWrite === 'none') {
                     showNotification('Этот пользователь запретил писать себе', 'error');
                     return null;
                 }
                 
-                // Ищем существующий чат
                 for (const [chatId, chatData] of Object.entries(allChats)) {
-                    if (chatData.type === 'private' && 
-                        chatData.participants && 
-                        chatData.participants[otherUserId] && 
-                        chatData.participants[currentUserId]) {
+                    if (chatData.type === 'private' && chatData.participants && chatData.participants[otherUserId] && chatData.participants[currentUserId]) {
                         return chatId;
                     }
                 }
                 
-                // Создаем новый чат
                 const newChatId = 'private_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
                 const otherUserData = allUsers[otherUserId] || allBots[otherUserId];
                 
@@ -2441,10 +2479,7 @@
                     type: allBots[otherUserId] ? 'bot' : 'private',
                     botId: allBots[otherUserId] ? otherUserId : null,
                     createdAt: Date.now(),
-                    participants: {
-                        [currentUserId]: true,
-                        [otherUserId]: true
-                    },
+                    participants: { [currentUserId]: true, [otherUserId]: true },
                     lastMessage: allBots[otherUserId] ? 'Напишите /start' : '',
                     lastMessageTime: Date.now(),
                     name: otherUserData?.name || otherUserData?.username || 'Чат',
@@ -2457,24 +2492,16 @@
             }
 
             function openChat(chat) {
-                console.log('Открываем чат:', chat);
-                
-                if (!chat || !chat.id) {
-                    console.error('Некорректный чат:', chat);
-                    return;
-                }
+                if (!chat || !chat.id) return;
                 
                 if (currentChatId && messagesListener) {
-                    if (messagesListener) {
-                        database.ref('chats/' + currentChatId + '/messages').off();
-                    }
+                    database.ref('chats/' + currentChatId + '/messages').off();
                 }
                 
                 currentChat = chat;
                 currentChatId = chat.id;
                 currentChatType = chat.type;
                 
-                // Обновляем шапку чата
                 if (chat.type === 'private') {
                     const otherUserId = Object.keys(chat.participants || {}).find(id => id !== currentUserId);
                     const otherUser = allUsers[otherUserId] || { username: 'Пользователь', avatar: '👤' };
@@ -2503,7 +2530,6 @@
                 
                 elements.messageInputArea.style.display = 'flex';
                 
-                // На мобильных устройствах скрываем список чатов
                 if (window.innerWidth <= 768) {
                     elements.chatsSidebar.classList.remove('active');
                     elements.chatArea.classList.add('active');
@@ -2511,16 +2537,13 @@
                     elements.chatArea.classList.add('active');
                 }
                 
-                // Загружаем сообщения
                 loadMessages(chat.id);
             }
 
             function loadMessages(chatId) {
                 elements.messagesContainer.innerHTML = '';
-                
                 const messagesRef = database.ref('chats/' + chatId + '/messages');
                 
-                // Слушаем новые сообщения
                 messagesRef.orderByChild('timestamp').on('child_added', (snapshot) => {
                     const message = snapshot.val();
                     addMessageToChat(message);
@@ -2536,11 +2559,7 @@
                 div.className = 'message ' + (message.senderId === currentUserId ? 'outgoing' : 'incoming');
                 
                 const time = formatTime(message.timestamp);
-                
-                let status = '';
-                if (message.senderId === currentUserId) {
-                    status = message.read ? '✓✓' : '✓';
-                }
+                let status = message.senderId === currentUserId ? (message.read ? '✓✓' : '✓') : '';
                 
                 div.innerHTML = `
                     <div class="message-bubble">
@@ -2560,14 +2579,12 @@
                 const text = elements.messageInput.value.trim();
                 if (!text || !currentChatId || !currentUserId) return;
                 
-                // Проверка на команду боту
                 if (currentChat.type === 'bot' && currentChat.botId) {
                     handleBotCommand(currentChat.botId, text);
                     elements.messageInput.value = '';
                     return;
                 }
                 
-                // Проверка, может ли пользователь писать в канал
                 if (currentChat.type === 'public_channel' || currentChat.type === 'private_channel') {
                     const isCreator = currentChat.creatorId === currentUserId;
                     if (!isCreator) {
@@ -2586,18 +2603,10 @@
                 };
                 
                 database.ref('chats/' + currentChatId + '/messages').push(message);
-                
-                // Обновляем последнее сообщение в чате
-                database.ref('chats/' + currentChatId).update({
-                    lastMessage: text,
-                    lastMessageTime: Date.now()
-                });
-                
+                database.ref('chats/' + currentChatId).update({ lastMessage: text, lastMessageTime: Date.now() });
                 elements.messageInput.value = '';
             }
 
-            // ========== ОБРАБОТКА КОМАНД БОТОВ ==========
-            
             function handleBotCommand(botId, text) {
                 const bot = allBots[botId];
                 if (!bot) return;
@@ -2605,19 +2614,65 @@
                 const cmd = text.toLowerCase().trim();
                 
                 if (bot.username === 'gift' || bot.name?.toLowerCase().includes('подарк')) {
-                    handleGiftBotCommand(cmd);
+                    if (cmd === '/start') sendBotMessage(botId, '🎁 *Магазин подарков*\n\n/shop - магазин\n/mygifts - мои подарки\n/balance - баланс\n/buy [id] - купить\n/upgrade [id] - улучшить\n/pin [id] - закрепить');
+                    else if (cmd === '/shop') {
+                        let shopText = '🎁 *Магазин подарков*\n\n';
+                        giftsCatalog.forEach(g => { shopText += `${g.emoji} *${g.name}*\nID: ${g.id}\nЦена: ${g.price} ⭐\nРедкость: ${g.rarity}\n/buy ${g.id}\n\n`; });
+                        sendBotMessage(botId, shopText);
+                    } else if (cmd === '/mygifts') {
+                        const gifts = Object.values(userGifts);
+                        if (gifts.length === 0) { sendBotMessage(botId, '🎁 У тебя пока нет подарков'); return; }
+                        let text = '🎁 *Твои подарки*\n\n';
+                        gifts.forEach(g => {
+                            text += `${g.emoji} *${g.name}* (ID: ${g.id})`;
+                            if (g.upgraded) text += ' ✨';
+                            text += `\n/pin ${g.id}`;
+                            if (g.canUpgrade) text += ` | /upgrade ${g.id}`;
+                            text += '\n\n';
+                        });
+                        sendBotMessage(botId, text);
+                    } else if (cmd === '/balance') sendBotMessage(botId, `💰 Твой баланс: ${currentUser.stars} ⭐`);
+                    else if (cmd.startsWith('/buy ')) buyGift(cmd.replace('/buy ', '').trim());
+                    else if (cmd.startsWith('/upgrade ')) upgradeGift(cmd.replace('/upgrade ', '').trim());
+                    else if (cmd.startsWith('/pin ')) pinGift(cmd.replace('/pin ', '').trim());
+                    else sendBotMessage(botId, '❓ Неизвестная команда. Напиши /start');
                 } else if (bot.username === 'stars' || bot.name?.toLowerCase().includes('звезд')) {
-                    handleStarsBotCommand(cmd);
-                } else if (bot.username === 'premium' || bot.name?.toLowerCase().includes('премиум')) {
-                    handlePremiumBotCommand(cmd);
-                } else {
-                    // Общая обработка для других ботов
-                    if (cmd === '/start') {
-                        sendBotMessage(botId, `👋 Привет! Я бот ${bot.name || bot.username}. Чем могу помочь?`);
-                    } else if (bot.commands) {
-                        // Здесь можно добавить обработку команд из базы данных
-                        sendBotMessage(botId, `❓ Неизвестная команда. Напиши /start`);
+                    if (cmd === '/start') sendBotMessage(botId, '⭐ *Магазин звёзд*\n\n/shop - цены\n/buy [количество] - купить');
+                    else if (cmd === '/shop') {
+                        let text = '⭐ *Цены на звёзды*\n\n';
+                        starPrices.forEach(p => { text += `${p.emoji} ${p.amount} звёзд — $${p.price}\n/buy ${p.amount}\n\n`; });
+                        sendBotMessage(botId, text);
+                    } else if (cmd.startsWith('/buy ')) {
+                        const amount = parseInt(cmd.replace('/buy ', '').trim());
+                        const price = starPrices.find(p => p.amount === amount);
+                        if (!price) { sendBotMessage(botId, '❌ Доступные количества: 50, 100, 250, 500, 1000, 2500'); return; }
+                        showModal({
+                            title: 'Покупка звёзд',
+                            content: `Купить ${amount} звёзд за $${price.price}?`,
+                            confirmText: 'Купить',
+                            onConfirm: () => {
+                                currentUser.stars += amount;
+                                database.ref('users/' + currentUserId).update({ stars: currentUser.stars });
+                                elements.userStars.textContent = '⭐ ' + currentUser.stars;
+                                elements.profileStars.textContent = '⭐ ' + currentUser.stars;
+                                sendBotMessage(botId, `✅ Ты купил ${amount} ⭐!`);
+                            }
+                        });
                     }
+                } else if (bot.username === 'premium' || bot.name?.toLowerCase().includes('премиум')) {
+                    if (cmd === '/start') sendBotMessage(botId, '👑 *Премиум*\n\n/month - месяц (50 ⭐)\n/year - год (500 ⭐)\n/forever - навсегда (1000 ⭐)\n/status - статус');
+                    else if (cmd === '/month') buyPremium('month');
+                    else if (cmd === '/year') buyPremium('year');
+                    else if (cmd === '/forever') buyPremium('forever');
+                    else if (cmd === '/status') {
+                        if (isPremium && premiumUntil) {
+                            const date = new Date(premiumUntil).toLocaleDateString();
+                            sendBotMessage(botId, `👑 У тебя есть премиум до ${date}`);
+                        } else sendBotMessage(botId, '❌ У тебя нет премиума');
+                    } else sendBotMessage(botId, '❓ Неизвестная команда. Напиши /start');
+                } else {
+                    if (cmd === '/start') sendBotMessage(botId, `👋 Привет! Я бот ${bot.name || bot.username}. Чем могу помочь?`);
+                    else sendBotMessage(botId, `❓ Неизвестная команда. Напиши /start`);
                 }
             }
 
@@ -2629,135 +2684,13 @@
                     timestamp: Date.now(),
                     read: false
                 };
-                
                 database.ref('chats/' + currentChatId + '/messages').push(message);
             }
 
-            // Бот подарков
-            function handleGiftBotCommand(cmd) {
-                if (cmd === '/start') {
-                    sendBotMessage(currentChat.botId, '🎁 *Магазин подарков*\n\n/shop - магазин\n/mygifts - мои подарки\n/balance - баланс\n/buy [id] - купить\n/upgrade [id] - улучшить\n/pin [id] - закрепить');
-                } else if (cmd === '/shop') {
-                    let shopText = '🎁 *Магазин подарков*\n\n';
-                    giftsCatalog.forEach(g => {
-                        shopText += `${g.emoji} *${g.name}*\nID: ${g.id}\nЦена: ${g.price} ⭐\nРедкость: ${g.rarity}\n/buy ${g.id}\n\n`;
-                    });
-                    sendBotMessage(currentChat.botId, shopText);
-                } else if (cmd === '/mygifts') {
-                    const gifts = Object.values(userGifts);
-                    if (gifts.length === 0) {
-                        sendBotMessage(currentChat.botId, '🎁 У тебя пока нет подарков');
-                        return;
-                    }
-                    
-                    let text = '🎁 *Твои подарки*\n\n';
-                    gifts.forEach(g => {
-                        text += `${g.emoji} *${g.name}* (ID: ${g.id})`;
-                        if (g.upgraded) text += ' ✨';
-                        text += `\n/pin ${g.id}`;
-                        if (g.canUpgrade) text += ` | /upgrade ${g.id}`;
-                        text += '\n\n';
-                    });
-                    sendBotMessage(currentChat.botId, text);
-                } else if (cmd === '/balance') {
-                    sendBotMessage(currentChat.botId, `💰 Твой баланс: ${currentUser.stars} ⭐`);
-                } else if (cmd.startsWith('/buy ')) {
-                    const giftId = cmd.replace('/buy ', '').trim();
-                    buyGift(giftId);
-                } else if (cmd.startsWith('/upgrade ')) {
-                    const giftId = cmd.replace('/upgrade ', '').trim();
-                    upgradeGift(giftId);
-                } else if (cmd.startsWith('/pin ')) {
-                    const giftId = cmd.replace('/pin ', '').trim();
-                    pinGift(giftId);
-                } else {
-                    sendBotMessage(currentChat.botId, '❓ Неизвестная команда. Напиши /start');
-                }
-            }
-
-            // Бот для покупки звезд
-            function handleStarsBotCommand(cmd) {
-                if (cmd === '/start') {
-                    let text = '⭐ *Магазин звёзд*\n\n';
-                    text += '/shop - посмотреть цены\n';
-                    text += '/buy [количество] - купить (например /buy 100)\n\n';
-                    text += 'Цены как в Telegram:';
-                    sendBotMessage(currentChat.botId, text);
-                } else if (cmd === '/shop') {
-                    let text = '⭐ *Цены на звёзды*\n\n';
-                    starPrices.forEach(p => {
-                        text += `${p.emoji} ${p.amount} звёзд — $${p.price}\n/buy ${p.amount}\n\n`;
-                    });
-                    sendBotMessage(currentChat.botId, text);
-                } else if (cmd.startsWith('/buy ')) {
-                    const amount = parseInt(cmd.replace('/buy ', '').trim());
-                    const price = starPrices.find(p => p.amount === amount);
-                    
-                    if (!price) {
-                        sendBotMessage(currentChat.botId, '❌ Доступные количества: 50, 100, 250, 500, 1000, 2500');
-                        return;
-                    }
-                    
-                    showModal({
-                        title: 'Покупка звёзд',
-                        content: `Купить ${amount} звёзд за $${price.price}?`,
-                        confirmText: 'Купить',
-                        onConfirm: () => {
-                            currentUser.stars += amount;
-                            database.ref('users/' + currentUserId).update({ stars: currentUser.stars });
-                            elements.userStars.textContent = '⭐ ' + currentUser.stars;
-                            elements.profileStars.textContent = '⭐ ' + currentUser.stars;
-                            
-                            sendBotMessage(currentChat.botId, `✅ Ты купил ${amount} ⭐!`);
-                        }
-                    });
-                }
-            }
-
-            // Бот для премиума
-            function handlePremiumBotCommand(cmd) {
-                if (cmd === '/start') {
-                    let text = '👑 *Премиум*\n\n';
-                    text += 'Преимущества:\n';
-                    text += '• До 10 закрепленных подарков (вместо 3)\n';
-                    text += '• Эксклюзивные подарки\n';
-                    text += '• Специальный значок в профиле\n';
-                    text += '• Приоритетная поддержка\n\n';
-                    text += 'Цены:\n';
-                    text += '/month — месяц (50 ⭐)\n';
-                    text += '/year — год (500 ⭐)\n';
-                    text += '/forever — навсегда (1000 ⭐)\n';
-                    text += '/status — статус подписки';
-                    
-                    sendBotMessage(currentChat.botId, text);
-                } else if (cmd === '/month') {
-                    buyPremium('month');
-                } else if (cmd === '/year') {
-                    buyPremium('year');
-                } else if (cmd === '/forever') {
-                    buyPremium('forever');
-                } else if (cmd === '/status') {
-                    if (isPremium && premiumUntil) {
-                        const date = new Date(premiumUntil).toLocaleDateString();
-                        sendBotMessage(currentChat.botId, `👑 У тебя есть премиум до ${date}`);
-                    } else {
-                        sendBotMessage(currentChat.botId, '❌ У тебя нет премиума');
-                    }
-                }
-            }
-
-            // Функции для подарков
             function buyGift(giftId) {
                 const gift = giftsCatalog.find(g => g.id === giftId);
-                if (!gift) {
-                    sendBotMessage(currentChat.botId, '❌ Подарок не найден');
-                    return;
-                }
-                
-                if (currentUser.stars < gift.price) {
-                    sendBotMessage(currentChat.botId, `❌ Недостаточно звёзд! Нужно ${gift.price} ⭐`);
-                    return;
-                }
+                if (!gift) { sendBotMessage(currentChat.botId, '❌ Подарок не найден'); return; }
+                if (currentUser.stars < gift.price) { sendBotMessage(currentChat.botId, `❌ Недостаточно звёзд! Нужно ${gift.price} ⭐`); return; }
                 
                 currentUser.stars -= gift.price;
                 database.ref('users/' + currentUserId).update({ stars: currentUser.stars });
@@ -2765,12 +2698,7 @@
                 elements.profileStars.textContent = '⭐ ' + currentUser.stars;
                 
                 const userGiftId = 'gift_' + Date.now();
-                const newGift = {
-                    id: userGiftId,
-                    ...gift,
-                    purchasedAt: Date.now()
-                };
-                
+                const newGift = { id: userGiftId, ...gift, purchasedAt: Date.now() };
                 userGifts[userGiftId] = newGift;
                 database.ref('users/' + currentUserId + '/gifts').set(userGifts);
                 
@@ -2780,23 +2708,12 @@
 
             function upgradeGift(giftId) {
                 const gift = userGifts[giftId];
-                if (!gift) {
-                    sendBotMessage(currentChat.botId, '❌ Подарок не найден');
-                    return;
-                }
-                
-                if (!gift.canUpgrade) {
-                    sendBotMessage(currentChat.botId, '❌ Этот подарок нельзя улучшить');
-                    return;
-                }
+                if (!gift) { sendBotMessage(currentChat.botId, '❌ Подарок не найден'); return; }
+                if (!gift.canUpgrade) { sendBotMessage(currentChat.botId, '❌ Этот подарок нельзя улучшить'); return; }
                 
                 const upgradedGift = giftsCatalog.find(g => g.id === gift.upgradeTo);
                 if (!upgradedGift) return;
-                
-                if (currentUser.stars < gift.upgradePrice) {
-                    sendBotMessage(currentChat.botId, `❌ Недостаточно звёзд для улучшения! Нужно ${gift.upgradePrice} ⭐`);
-                    return;
-                }
+                if (currentUser.stars < gift.upgradePrice) { sendBotMessage(currentChat.botId, `❌ Недостаточно звёзд для улучшения! Нужно ${gift.upgradePrice} ⭐`); return; }
                 
                 currentUser.stars -= gift.upgradePrice;
                 database.ref('users/' + currentUserId).update({ stars: currentUser.stars });
@@ -2804,16 +2721,8 @@
                 elements.profileStars.textContent = '⭐ ' + currentUser.stars;
                 
                 delete userGifts[giftId];
-                
                 const newGiftId = 'gift_' + Date.now();
-                const newGift = {
-                    id: newGiftId,
-                    ...upgradedGift,
-                    purchasedAt: Date.now(),
-                    upgraded: true,
-                    upgradedFrom: giftId
-                };
-                
+                const newGift = { id: newGiftId, ...upgradedGift, purchasedAt: Date.now(), upgraded: true, upgradedFrom: giftId };
                 userGifts[newGiftId] = newGift;
                 database.ref('users/' + currentUserId + '/gifts').set(userGifts);
                 
@@ -2823,10 +2732,7 @@
 
             function pinGift(giftId) {
                 const gift = userGifts[giftId];
-                if (!gift) {
-                    sendBotMessage(currentChat.botId, '❌ Подарок не найден');
-                    return;
-                }
+                if (!gift) { sendBotMessage(currentChat.botId, '❌ Подарок не найден'); return; }
                 
                 const maxPinned = isPremium ? 10 : 3;
                 
@@ -2853,7 +2759,6 @@
                 elements.pinnedGifts.innerHTML = '';
                 
                 const gifts = Object.values(userGifts);
-                
                 if (gifts.length === 0) {
                     elements.giftsCollection.innerHTML = '<div class="empty-state">Нет подарков</div>';
                     return;
@@ -2861,7 +2766,6 @@
                 
                 gifts.forEach(gift => {
                     const isPinned = pinnedGifts.includes(gift.id);
-                    
                     const div = document.createElement('div');
                     div.className = 'gift-item ' + gift.rarity;
                     div.innerHTML = `
@@ -2878,10 +2782,7 @@
                     if (isPinned) {
                         const pinnedDiv = document.createElement('div');
                         pinnedDiv.className = 'pinned-gift';
-                        pinnedDiv.innerHTML = `
-                            <div class="gift-emoji">${gift.emoji}</div>
-                            <div class="pinned-gift-name">${gift.name}</div>
-                        `;
+                        pinnedDiv.innerHTML = `<div class="gift-emoji">${gift.emoji}</div><div class="pinned-gift-name">${gift.name}</div>`;
                         elements.pinnedGifts.appendChild(pinnedDiv);
                     }
                     
@@ -2889,13 +2790,9 @@
                 });
             }
 
-            // ========== ПОИСК (ИЩЕТ ВО ВСЕХ НОДАХ) ==========
-            
             elements.searchBtn.addEventListener('click', () => {
                 elements.searchPanel.classList.toggle('hidden');
-                if (!elements.searchPanel.classList.contains('hidden')) {
-                    elements.searchInput.focus();
-                }
+                if (!elements.searchPanel.classList.contains('hidden')) elements.searchInput.focus();
             });
 
             elements.searchInput.addEventListener('input', (e) => {
@@ -2908,62 +2805,27 @@
                 
                 const results = [];
                 
-                // Поиск пользователей (учитывая настройки конфиденциальности)
                 Object.entries(allUsers).forEach(([userId, user]) => {
                     if (userId !== currentUserId) {
-                        // Проверяем, можно ли найти пользователя
-                        if (user.privacy && user.privacy.whoCanWrite === 'none') {
-                            return; // Не показываем в поиске
-                        }
-                        
+                        if (user.privacy && user.privacy.whoCanWrite === 'none') return;
                         if (user.username.toLowerCase().includes(query) || (user.searchUsername && user.searchUsername.toLowerCase().includes(query))) {
-                            results.push({ 
-                                type: 'user', 
-                                id: userId, 
-                                name: user.username,
-                                username: user.username,
-                                avatar: user.avatar || '👤',
-                                online: user.online || false,
-                                grant: user.grant || false
-                            });
+                            results.push({ type: 'user', id: userId, name: user.username, username: user.username, avatar: user.avatar || '👤', online: user.online || false, grant: user.grant || false });
                         }
                     }
                 });
                 
-                // Поиск ботов (ищем во всех загруженных ботах)
                 Object.entries(allBots).forEach(([botId, bot]) => {
                     if (bot.username && bot.username.toLowerCase().includes(query)) {
-                        results.push({ 
-                            type: 'bot', 
-                            id: botId, 
-                            name: bot.name || bot.username,
-                            username: bot.username,
-                            avatar: bot.avatar || '🤖',
-                            description: bot.description
-                        });
+                        results.push({ type: 'bot', id: botId, name: bot.name || bot.username, username: bot.username, avatar: bot.avatar || '🤖', description: bot.description });
                     } else if (bot.name && bot.name.toLowerCase().includes(query)) {
-                        results.push({ 
-                            type: 'bot', 
-                            id: botId, 
-                            name: bot.name,
-                            username: bot.username,
-                            avatar: bot.avatar || '🤖',
-                            description: bot.description
-                        });
+                        results.push({ type: 'bot', id: botId, name: bot.name, username: bot.username, avatar: bot.avatar || '🤖', description: bot.description });
                     }
                 });
                 
-                // Поиск каналов и групп (из чатов)
                 Object.entries(allChats).forEach(([chatId, chat]) => {
                     if (chat.type !== 'private' && chat.type !== 'bot') {
                         if ((chat.name && chat.name.toLowerCase().includes(query)) || (chat.username && chat.username.toLowerCase().includes(query))) {
-                            results.push({ 
-                                type: chat.type, 
-                                id: chatId, 
-                                name: chat.name,
-                                username: chat.username,
-                                avatar: chat.avatar
-                            });
+                            results.push({ type: chat.type, id: chatId, name: chat.name, username: chat.username, avatar: chat.avatar });
                         }
                     }
                 });
@@ -3001,20 +2863,13 @@
                                 elements.searchPanel.classList.add('hidden');
                                 elements.searchInput.value = '';
                                 elements.searchResults.innerHTML = '';
-                                setTimeout(() => {
-                                    const chat = allChats[chatId];
-                                    if (chat) openChat(chat);
-                                }, 500);
+                                setTimeout(() => { const chat = allChats[chatId]; if (chat) openChat(chat); }, 500);
                             }
                         } else {
-                            // Это канал или группа, открываем существующий чат
                             elements.searchPanel.classList.add('hidden');
                             elements.searchInput.value = '';
                             elements.searchResults.innerHTML = '';
-                            setTimeout(() => {
-                                const chat = allChats[item.id];
-                                if (chat) openChat(chat);
-                            }, 500);
+                            setTimeout(() => { const chat = allChats[item.id]; if (chat) openChat(chat); }, 500);
                         }
                     });
                     
@@ -3022,8 +2877,6 @@
                 });
             });
 
-            // ========== НАВИГАЦИЯ ==========
-            
             elements.menuBtn.addEventListener('click', () => {
                 showModal({
                     title: 'Меню',
@@ -3142,10 +2995,7 @@
             elements.backToChats.addEventListener('click', () => {
                 elements.chatArea.classList.remove('active');
                 elements.chatsSidebar.classList.add('active');
-                
-                if (messagesListener) {
-                    database.ref('chats/' + currentChatId + '/messages').off();
-                }
+                if (messagesListener) database.ref('chats/' + currentChatId + '/messages').off();
             });
 
             elements.backFromInfo.addEventListener('click', () => {
@@ -3154,9 +3004,7 @@
             });
 
             elements.logoutBtn.addEventListener('click', () => {
-                if (currentUserId) {
-                    database.ref('users/' + currentUserId).update({ online: false });
-                }
+                if (currentUserId) database.ref('users/' + currentUserId).update({ online: false });
                 currentUser = null;
                 currentUserId = null;
                 elements.mainScreen.classList.remove('active');
@@ -3176,29 +3024,19 @@
                         
                         let found = null;
                         Object.entries(allUsers).forEach(([id, user]) => {
-                            // Проверяем настройки конфиденциальности
-                            if (user.privacy && user.privacy.whoCanWrite === 'none') {
-                                return;
-                            }
-                            if (user.searchUsername === search || user.username === search) {
-                                found = id;
-                            }
+                            if (user.privacy && user.privacy.whoCanWrite === 'none') return;
+                            if (user.searchUsername === search || user.username === search) found = id;
                         });
                         
-                        // Проверяем ботов (у них нет настроек конфиденциальности)
                         if (!found) {
                             Object.entries(allBots).forEach(([id, bot]) => {
-                                if (bot.username === search) {
-                                    found = id;
-                                }
+                                if (bot.username === search) found = id;
                             });
                         }
                         
                         if (found) {
                             const chatId = getOrCreatePrivateChat(found);
-                            if (chatId) {
-                                showNotification('Чат создан', 'success');
-                            }
+                            if (chatId) showNotification('Чат создан', 'success');
                         } else {
                             showNotification('Пользователь не найден', 'error');
                         }
@@ -3206,52 +3044,51 @@
                 });
             };
 
-elements.chatInfoBtn.addEventListener('click', () => {
-    if (!currentChat) return;
-    
-    let info = '';
-    
-    if (currentChat.type === 'private' || currentChat.type === 'bot') {
-        info = `
-            <div class="info-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3>Информация</h3>
-                    <button class="info-back-btn" onclick="closeInfo()">✕ Закрыть</button>
-                </div>
-                <div class="info-avatar-large">${currentChat.avatar || '👤'}</div>
-                <div class="info-title-large">${currentChat.name}</div>
-                <div class="info-type-badge">${currentChat.type === 'bot' ? 'Бот' : 'Личный чат'}</div>
-                <button class="info-action-btn" onclick="clearChat()">Очистить историю</button>
-            </div>
-        `;
-    } else {
-        const isCreator = currentChat.creatorId === currentUserId;
-        info = `
-            <div class="info-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3>Информация</h3>
-                    <button class="info-back-btn" onclick="closeInfo()">✕ Закрыть</button>
-                </div>
-                <div class="info-avatar-large">${currentChat.avatar || '👥'}</div>
-                <div class="info-title-large">${currentChat.name}</div>
-                <div class="info-type-badge">@${currentChat.username || 'username'}</div>
-                <div class="info-divider"></div>
-                <div class="info-participants-title">Участники (${Object.keys(currentChat.participants || {}).length})</div>
-                <button class="info-action-btn" onclick="clearChat()">Очистить историю</button>
-                ${!isCreator ? '<button class="info-action-btn" onclick="leaveChat()">Покинуть</button>' : ''}
-            </div>
-        `;
-    }
-    
-    elements.chatInfoContent.innerHTML = info;
-    elements.chatInfoScreen.classList.remove('hidden');
-});
+            elements.chatInfoBtn.addEventListener('click', () => {
+                if (!currentChat) return;
+                
+                let info = '';
+                
+                if (currentChat.type === 'private' || currentChat.type === 'bot') {
+                    info = `
+                        <div class="info-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3>Информация</h3>
+                                <button class="info-back-btn" onclick="closeInfo()" style="background: transparent; border: none; color: var(--text-primary); font-size: 18px; cursor: pointer; padding: 5px 10px;">✕ Закрыть</button>
+                            </div>
+                            <div class="info-avatar-large">${currentChat.avatar || '👤'}</div>
+                            <div class="info-title-large">${currentChat.name}</div>
+                            <div class="info-type-badge">${currentChat.type === 'bot' ? 'Бот' : 'Личный чат'}</div>
+                            <button class="info-action-btn" onclick="clearChat()">Очистить историю</button>
+                        </div>
+                    `;
+                } else {
+                    const isCreator = currentChat.creatorId === currentUserId;
+                    info = `
+                        <div class="info-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3>Информация</h3>
+                                <button class="info-back-btn" onclick="closeInfo()" style="background: transparent; border: none; color: var(--text-primary); font-size: 18px; cursor: pointer; padding: 5px 10px;">✕ Закрыть</button>
+                            </div>
+                            <div class="info-avatar-large">${currentChat.avatar || '👥'}</div>
+                            <div class="info-title-large">${currentChat.name}</div>
+                            <div class="info-type-badge">@${currentChat.username || 'username'}</div>
+                            <div class="info-divider"></div>
+                            <div class="info-participants-title">Участники (${Object.keys(currentChat.participants || {}).length})</div>
+                            <button class="info-action-btn" onclick="clearChat()">Очистить историю</button>
+                            ${!isCreator ? '<button class="info-action-btn" onclick="leaveChat()">Покинуть</button>' : ''}
+                        </div>
+                    `;
+                }
+                
+                elements.chatInfoContent.innerHTML = info;
+                elements.chatInfoScreen.classList.remove('hidden');
+            });
 
-// Функция для закрытия информации
-window.closeInfo = function() {
-    elements.chatInfoScreen.classList.add('hidden');
-    elements.chatArea.classList.add('active');
-};
+            window.closeInfo = function() {
+                elements.chatInfoScreen.classList.add('hidden');
+                elements.chatArea.classList.add('active');
+            };
 
             window.clearChat = function() {
                 showModal({
@@ -3338,13 +3175,11 @@ window.closeInfo = function() {
                 elements.chatsSidebar.classList.add('active');
             });
 
-            // Адаптация под мобильные
             if (window.innerWidth <= 768) {
                 elements.chatArea.classList.remove('active');
                 elements.chatsSidebar.classList.add('active');
             }
 
-            // Проверяем подключение к Firebase
             database.ref('.info/connected').on('value', (snap) => {
                 if (snap.val()) console.log('✅ Firebase online');
             });
