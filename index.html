@@ -382,6 +382,87 @@
             background: var(--bg-primary);
         }
 
+        .search-results {
+            margin-top: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            position: absolute;
+            left: 16px;
+            right: 16px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .search-results:empty {
+            display: none;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-hover);
+        }
+
+        .search-result-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .search-result-info {
+            flex: 1;
+        }
+
+        .search-result-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .search-result-username {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .search-result-status {
+            font-size: 11px;
+            color: var(--online-color);
+        }
+
+        .search-result-action {
+            padding: 6px 12px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .search-result-action:hover {
+            background: var(--accent-hover);
+        }
+
         /* Список чатов */
         .chats-list-container {
             flex: 1;
@@ -676,7 +757,7 @@
             color: var(--accent-color);
         }
 
-        /* ========== ПОЛЕ ВВОДА - ИСПРАВЛЕННАЯ ВЕРСИЯ ========== */
+        /* ========== ПОЛЕ ВВОДА ========== */
         .message-input-area {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
@@ -1247,84 +1328,6 @@
             color: var(--accent-color);
         }
 
-        /* Результаты поиска */
-        .search-results {
-            margin-top: 12px;
-            max-height: 300px;
-            overflow-y: auto;
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            position: absolute;
-            left: 16px;
-            right: 16px;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .search-result-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-
-        .search-result-item:hover {
-            background: var(--bg-hover);
-        }
-
-        .search-result-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--accent-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .search-result-info {
-            flex: 1;
-        }
-
-        .search-result-name {
-            font-weight: 500;
-            margin-bottom: 2px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .search-result-username {
-            font-size: 12px;
-            color: var(--text-secondary);
-        }
-
-        .search-result-status {
-            font-size: 11px;
-            color: var(--online-color);
-        }
-
-        .search-result-action {
-            padding: 6px 12px;
-            background: var(--accent-color);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-            flex-shrink: 0;
-        }
-
-        .search-result-action:hover {
-            background: var(--accent-hover);
-        }
-
         /* Пустые состояния */
         .empty-state {
             text-align: center;
@@ -1771,7 +1774,7 @@
                 <div id="search-panel" class="search-panel hidden">
                     <div class="search-container">
                         <span class="search-icon">🔍</span>
-                        <input type="text" id="search-input" placeholder="Поиск..." class="search-input">
+                        <input type="text" id="search-input" placeholder="Поиск пользователей, ботов, групп, каналов..." class="search-input">
                     </div>
                     <div id="search-results" class="search-results"></div>
                 </div>
@@ -1804,7 +1807,7 @@
                 <!-- Сообщения -->
                 <div class="messages-container" id="messages-container"></div>
 
-                <!-- ПОЛЕ ВВОДА - ИСПРАВЛЕННАЯ ВЕРСИЯ -->
+                <!-- ПОЛЕ ВВОДА -->
                 <div class="message-input-area" id="message-input-area" style="display: none;">
                     <div class="message-input-container">
                         <button class="attach-btn" id="attach-btn">📎</button>
@@ -1925,6 +1928,7 @@
             let allUsers = {};
             let allChats = {};
             let allBots = {};
+            let allPublicChats = {}; // Для публичных групп и каналов
             let userGifts = {};
             let pinnedGifts = [];
             let messagesListener = null;
@@ -2173,6 +2177,7 @@
                         elements.mainScreen.classList.add('active');
                         
                         loadAllBots();
+                        loadAllPublicChats(); // Загружаем публичные чаты
                         updateUserInfo();
                         loadAllUsers();
                         loadUserChats();
@@ -2251,6 +2256,7 @@
                         elements.mainScreen.classList.add('active');
                         
                         loadAllBots();
+                        loadAllPublicChats(); // Загружаем публичные чаты
                         updateUserInfo();
                         loadAllUsers();
                         loadUserChats();
@@ -2347,6 +2353,22 @@
                 database.ref('users').on('value', (snapshot) => {
                     allUsers = snapshot.val() || {};
                     console.log('✅ Пользователи загружены:', Object.keys(allUsers).length);
+                });
+            }
+
+            function loadAllPublicChats() {
+                database.ref('chats').on('value', (snapshot) => {
+                    const chatsData = snapshot.val() || {};
+                    allPublicChats = {};
+                    
+                    Object.entries(chatsData).forEach(([chatId, chatData]) => {
+                        // Сохраняем все публичные группы и каналы для поиска
+                        if (chatData.type === 'public_group' || chatData.type === 'public_channel') {
+                            allPublicChats[chatId] = chatData;
+                        }
+                    });
+                    
+                    console.log('✅ Публичные чаты загружены:', Object.keys(allPublicChats).length);
                 });
             }
 
@@ -2792,11 +2814,14 @@
 
             elements.searchBtn.addEventListener('click', () => {
                 elements.searchPanel.classList.toggle('hidden');
-                if (!elements.searchPanel.classList.contains('hidden')) elements.searchInput.focus();
+                if (!elements.searchPanel.classList.contains('hidden')) {
+                    elements.searchInput.focus();
+                }
             });
 
+            // ========== ИСПРАВЛЕННЫЙ ПОИСК ==========
             elements.searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase();
+                const query = e.target.value.toLowerCase().trim();
                 
                 if (query.length < 2) {
                     elements.searchResults.innerHTML = '';
@@ -2805,31 +2830,107 @@
                 
                 const results = [];
                 
+                // Поиск пользователей
                 Object.entries(allUsers).forEach(([userId, user]) => {
-                    if (userId !== currentUserId) {
-                        if (user.privacy && user.privacy.whoCanWrite === 'none') return;
-                        if (user.username.toLowerCase().includes(query) || (user.searchUsername && user.searchUsername.toLowerCase().includes(query))) {
-                            results.push({ type: 'user', id: userId, name: user.username, username: user.username, avatar: user.avatar || '👤', online: user.online || false, grant: user.grant || false });
-                        }
+                    if (userId === currentUserId) return; // Пропускаем текущего пользователя
+                    
+                    // Проверяем приватность
+                    if (user.privacy && user.privacy.whoCanWrite === 'none') return;
+                    
+                    // Поиск по username и searchUsername
+                    if (user.username.toLowerCase().includes(query) || 
+                        (user.searchUsername && user.searchUsername.toLowerCase().includes(query))) {
+                        results.push({
+                            type: 'user',
+                            id: userId,
+                            name: user.username,
+                            username: user.username,
+                            displayName: user.username,
+                            avatar: user.avatar || '👤',
+                            online: user.online || false,
+                            grant: user.grant || false,
+                            premium: user.premium || false,
+                            subtitle: user.online ? 'в сети' : 'офлайн'
+                        });
                     }
                 });
                 
+                // Поиск ботов
                 Object.entries(allBots).forEach(([botId, bot]) => {
                     if (bot.username && bot.username.toLowerCase().includes(query)) {
-                        results.push({ type: 'bot', id: botId, name: bot.name || bot.username, username: bot.username, avatar: bot.avatar || '🤖', description: bot.description });
+                        results.push({
+                            type: 'bot',
+                            id: botId,
+                            name: bot.name || bot.username,
+                            username: bot.username,
+                            displayName: bot.name || bot.username,
+                            avatar: bot.avatar || '🤖',
+                            subtitle: bot.description || 'бот',
+                            canStart: true
+                        });
                     } else if (bot.name && bot.name.toLowerCase().includes(query)) {
-                        results.push({ type: 'bot', id: botId, name: bot.name, username: bot.username, avatar: bot.avatar || '🤖', description: bot.description });
+                        results.push({
+                            type: 'bot',
+                            id: botId,
+                            name: bot.name,
+                            username: bot.username,
+                            displayName: bot.name,
+                            avatar: bot.avatar || '🤖',
+                            subtitle: bot.description || 'бот',
+                            canStart: true
+                        });
                     }
                 });
                 
-                Object.entries(allChats).forEach(([chatId, chat]) => {
-                    if (chat.type !== 'private' && chat.type !== 'bot') {
-                        if ((chat.name && chat.name.toLowerCase().includes(query)) || (chat.username && chat.username.toLowerCase().includes(query))) {
-                            results.push({ type: chat.type, id: chatId, name: chat.name, username: chat.username, avatar: chat.avatar });
+                // Поиск публичных групп и каналов
+                Object.entries(allPublicChats).forEach(([chatId, chat]) => {
+                    // Поиск по названию
+                    if (chat.name && chat.name.toLowerCase().includes(query)) {
+                        const typeText = chat.type === 'public_group' ? 'группа' : 'канал';
+                        results.push({
+                            type: chat.type,
+                            id: chatId,
+                            name: chat.name,
+                            username: chat.username,
+                            displayName: chat.name,
+                            avatar: chat.avatar || (chat.type === 'public_group' ? '👥' : '📢'),
+                            subtitle: `${typeText} • @${chat.username || 'username'}`,
+                            participants: chat.participants ? Object.keys(chat.participants).length : 0,
+                            isMember: chat.participants && chat.participants[currentUserId] ? true : false
+                        });
+                    }
+                    
+                    // Поиск по username
+                    if (chat.username && chat.username.toLowerCase().includes(query)) {
+                        const typeText = chat.type === 'public_group' ? 'группа' : 'канал';
+                        // Проверяем, не добавили ли уже этот чат
+                        const exists = results.some(r => r.id === chatId);
+                        if (!exists) {
+                            results.push({
+                                type: chat.type,
+                                id: chatId,
+                                name: chat.name,
+                                username: chat.username,
+                                displayName: chat.name,
+                                avatar: chat.avatar || (chat.type === 'public_group' ? '👥' : '📢'),
+                                subtitle: `${typeText} • @${chat.username}`,
+                                participants: chat.participants ? Object.keys(chat.participants).length : 0,
+                                isMember: chat.participants && chat.participants[currentUserId] ? true : false
+                            });
                         }
                     }
                 });
                 
+                // Сортируем результаты (сначала пользователи, потом боты, потом чаты)
+                results.sort((a, b) => {
+                    const order = { 'user': 1, 'bot': 2, 'public_group': 3, 'public_channel': 3 };
+                    return (order[a.type] || 4) - (order[b.type] || 4);
+                });
+                
+                renderSearchResults(results);
+            });
+
+            function renderSearchResults(results) {
                 elements.searchResults.innerHTML = '';
                 
                 if (results.length === 0) {
@@ -2841,41 +2942,81 @@
                     const div = document.createElement('div');
                     div.className = 'search-result-item';
                     
-                    let typeText = '';
-                    if (item.type === 'user') typeText = item.online ? 'в сети' : 'офлайн';
-                    else if (item.type === 'bot') typeText = item.description || 'бот';
-                    else if (item.type.includes('channel')) typeText = 'канал';
-                    else if (item.type.includes('group')) typeText = 'группа';
+                    let actionText = 'Написать';
+                    if (item.type === 'public_group' || item.type === 'public_channel') {
+                        actionText = item.isMember ? 'Открыть' : 'Присоединиться';
+                    } else if (item.type === 'bot') {
+                        actionText = 'Запустить';
+                    }
+                    
+                    let nameHtml = item.displayName;
+                    if (item.grant) nameHtml += ' <span class="verified-badge"></span>';
+                    if (item.premium) nameHtml += ' <span class="premium-badge"></span>';
                     
                     div.innerHTML = `
                         <div class="search-result-avatar">${item.avatar || '👤'}</div>
                         <div class="search-result-info">
-                            <div class="search-result-name">${item.name || '@' + item.username} ${item.grant ? '<span class="verified-badge"></span>' : ''}</div>
-                            <div class="search-result-username">${typeText}</div>
+                            <div class="search-result-name">${nameHtml}</div>
+                            <div class="search-result-username">${item.subtitle || '@' + item.username}</div>
                         </div>
-                        <button class="search-result-action">Написать</button>
+                        <button class="search-result-action" data-id="${item.id}" data-type="${item.type}">${actionText}</button>
                     `;
                     
                     div.querySelector('.search-result-action').addEventListener('click', () => {
-                        if (item.type === 'user' || item.type === 'bot') {
-                            const chatId = getOrCreatePrivateChat(item.id);
-                            if (chatId) {
-                                elements.searchPanel.classList.add('hidden');
-                                elements.searchInput.value = '';
-                                elements.searchResults.innerHTML = '';
-                                setTimeout(() => { const chat = allChats[chatId]; if (chat) openChat(chat); }, 500);
-                            }
-                        } else {
-                            elements.searchPanel.classList.add('hidden');
-                            elements.searchInput.value = '';
-                            elements.searchResults.innerHTML = '';
-                            setTimeout(() => { const chat = allChats[item.id]; if (chat) openChat(chat); }, 500);
-                        }
+                        handleSearchResultAction(item);
                     });
                     
                     elements.searchResults.appendChild(div);
                 });
-            });
+            }
+
+            function handleSearchResultAction(item) {
+                elements.searchPanel.classList.add('hidden');
+                elements.searchInput.value = '';
+                elements.searchResults.innerHTML = '';
+                
+                if (item.type === 'user' || item.type === 'bot') {
+                    // Личный чат или бот
+                    const chatId = getOrCreatePrivateChat(item.id);
+                    if (chatId) {
+                        // Ждем немного, чтобы чат создался
+                        setTimeout(() => {
+                            database.ref('chats/' + chatId).once('value', (snapshot) => {
+                                const chat = snapshot.val();
+                                if (chat) openChat(chat);
+                            });
+                        }, 500);
+                    }
+                } else if (item.type === 'public_group' || item.type === 'public_channel') {
+                    // Публичная группа или канал
+                    database.ref('chats/' + item.id).once('value', (snapshot) => {
+                        const chat = snapshot.val();
+                        if (chat) {
+                            if (item.isMember) {
+                                // Уже участник - открываем
+                                openChat(chat);
+                            } else {
+                                // Предлагаем присоединиться
+                                showModal({
+                                    title: 'Присоединиться',
+                                    content: `Хотите присоединиться к ${chat.name}?`,
+                                    confirmText: 'Присоединиться',
+                                    onConfirm: () => {
+                                        // Добавляем пользователя в участники
+                                        const participants = chat.participants || {};
+                                        participants[currentUserId] = true;
+                                        
+                                        database.ref('chats/' + item.id + '/participants').set(participants).then(() => {
+                                            showNotification('Вы присоединились к ' + chat.name, 'success');
+                                            openChat(chat);
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }
 
             elements.menuBtn.addEventListener('click', () => {
                 showModal({
